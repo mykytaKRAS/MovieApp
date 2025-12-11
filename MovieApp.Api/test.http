@@ -1,0 +1,32 @@
+POST http://localhost:5005/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123",
+  "role": "Admin"
+}
+
+### eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6IjQiLCJqdGkiOiI2MDNjNjU5MS1lMjY2LTRkNDItYTVlOS02YWEyMTM2YWU1OGMiLCJleHAiOjE3NjU1NTg4NDgsImlzcyI6Ik1vdmllQXBpIiwiYXVkIjoiTW92aWVBcGlVc2VycyJ9.oSpD3nX_2qQaieDsEoAoMw74cuSyV69ulEg62CAhMX0
+POST http://localhost:5005/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6IjQiLCJqdGkiOiJmODFjYTMzZi0xN2MwLTQxODctOThmNS0zZGFjNWFjMmMyYjEiLCJleHAiOjE3NjU1NTg5MDgsImlzcyI6Ik1vdmllQXBpIiwiYXVkIjoiTW92aWVBcGlVc2VycyJ9.altFo7ecBGNNGKEBx8ruaODRlms1NvoDGV_3DaTxWn0
+GET http://localhost:5005/api/movies
+###
+PUT http://localhost:5005/api/movies/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInN1YiI6IjQiLCJqdGkiOiJmODFjYTMzZi0xN2MwLTQxODctOThmNS0zZGFjNWFjMmMyYjEiLCJleHAiOjE3NjU1NTg5MDgsImlzcyI6Ik1vdmllQXBpIiwiYXVkIjoiTW92aWVBcGlVc2VycyJ9.altFo7ecBGNNGKEBx8ruaODRlms1NvoDGV_3DaTxWn0
+Content-Type: application/json
+
+{
+  "id": 1,  
+  "title": " NEW The Dark Knight",
+  "description": "A gritty superhero film",
+  "releaseYear": 2009,
+  "genre": "Action",
+  "rating": 9
+}
