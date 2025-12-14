@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 using MovieApp.Api.DTOs;
 using MovieApp.Api.Models;
 using MovieApp.Api.Data;
+using MovieApp.Api.Hubs;
 
 namespace MovieApp.Api.Services
 {
@@ -9,7 +11,7 @@ namespace MovieApp.Api.Services
     {
         Task<IEnumerable<MovieDto>> GetAllMoviesAsync();
         Task<MovieDto?> GetMovieByIdAsync(int id);
-        Task<MovieDto> CreateMovieAsync(CreateMovieDto createMovieDto);
+        Task<MovieDto> CreateMovieAsync(CreateMovieDto createMovieDto, string? username = null);
         Task<MovieDto?> UpdateMovieAsync(int id, UpdateMovieDto updateMovieDto);
         Task<bool> DeleteMovieAsync(int id);
         Task<IEnumerable<MovieDto>> SearchMoviesAsync(string? title, string? genre, int? year);
@@ -18,10 +20,12 @@ namespace MovieApp.Api.Services
     public class MovieService : IMovieService
     {
         private readonly MovieDbContext _context;
+        private readonly IHubContext<MovieHub> _hubContext;
 
-        public MovieService(MovieDbContext context)
+        public MovieService(MovieDbContext context, IHubContext<MovieHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         public async Task<IEnumerable<MovieDto>> GetAllMoviesAsync()
@@ -36,7 +40,7 @@ namespace MovieApp.Api.Services
             return movie == null ? null : MapToDto(movie);
         }
 
-        public async Task<MovieDto> CreateMovieAsync(CreateMovieDto createMovieDto)
+        public async Task<MovieDto> CreateMovieAsync(CreateMovieDto createMovieDto, string? username = null)
         {
             var movie = new Movie
             {
@@ -49,6 +53,16 @@ namespace MovieApp.Api.Services
 
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
+
+            // Broadcast to all connected clients via SignalR
+            var activityMessage = $"{username ?? "Admin"} added \"{movie.Title}\" ({movie.ReleaseYear})";
+            await _hubContext.Clients.All.SendAsync("ReceiveMovieActivity", new
+            {
+                message = activityMessage,
+                movie = MapToDto(movie),
+                timestamp = DateTime.UtcNow,
+                action = "added"
+            });
 
             return MapToDto(movie);
         }

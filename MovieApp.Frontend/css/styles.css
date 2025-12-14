@@ -299,6 +299,112 @@ input:focus, textarea:focus, select:focus {
     color: #aaa;
 }
 
+.activity-feed {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activity-header h3 {
+    color: #fff;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.close-activity {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    transition: color 0.3s ease;
+}
+
+.close-activity:hover {
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.activity-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 15px;
+    border-radius: 10px;
+    border-left: 3px solid #ee5a6f;
+    animation: slideIn 0.3s ease;
+}
+
+.activity-item.new {
+    background: rgba(238, 90, 111, 0.1);
+    border-left-color: #ff6b6b;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.activity-message {
+    color: #e4e4e4;
+    font-size: 0.95em;
+    margin-bottom: 5px;
+}
+
+.activity-time {
+    color: #aaa;
+    font-size: 0.8em;
+}
+
+.activity-empty {
+    text-align: center;
+    color: #aaa;
+    padding: 20px;
+}
+
+.activity-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 15px 25px;
+    border-radius: 50px;
+    box-shadow: 0 5px 20px rgba(238, 90, 111, 0.4);
+    z-index: 999;
+}
+
+.activity-toggle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(238, 90, 111, 0.6);
+}
+
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -311,5 +417,16 @@ input:focus, textarea:focus, select:focus {
 
     .controls {
         flex-direction: column;
+    }
+
+    .activity-toggle {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        font-size: 0.9em;
+    }
+
+    .activity-feed {
+        max-height: 300px;
     }
 }

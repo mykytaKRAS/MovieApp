@@ -53,9 +53,11 @@ namespace MovieApp.Api.Endpoints
             // Create movie (Admin only)
             moviesGroup.MapPost("/", async (
                 [FromBody] CreateMovieDto createMovieDto,
-                IMovieService movieService) =>
+                IMovieService movieService,
+                HttpContext context) =>
             {
-                var movie = await movieService.CreateMovieAsync(createMovieDto);
+                var username = context.User.Identity?.Name;
+                var movie = await movieService.CreateMovieAsync(createMovieDto, username);
                 return Results.Created($"/api/movies/{movie.Id}", movie);
             })
             .WithName("CreateMovie")

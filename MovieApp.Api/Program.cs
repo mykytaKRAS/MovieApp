@@ -73,14 +73,21 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 
-// Configure CORS
+// Add SignalR
+builder.Services.AddSignalR();
+
+// Configure CORS for SignalR
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(
+                "http://localhost:5500",
+                "http://127.0.0.1:5500"
+              )
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+              .AllowCredentials(); // Required for SignalR
     });
 });
 
@@ -101,5 +108,8 @@ app.UseAuthorization();
 // Map endpoints
 app.MapAuthEndpoints();
 app.MapMovieEndpoints();
+
+// Map SignalR hub
+app.MapHub<MovieApp.Api.Hubs.MovieHub>("/movieHub");
 
 app.Run();

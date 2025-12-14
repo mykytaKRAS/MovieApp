@@ -85,6 +85,20 @@
                 <button id="addMovieBtn" class="hidden" onclick="openAddModal()">+ Add Movie</button>
             </div>
 
+            <!-- Activity Feed -->
+            <div id="activityFeed" class="activity-feed hidden">
+                <div class="activity-header">
+                    <h3>📢 Recent Activity</h3>
+                    <button class="close-activity" onclick="toggleActivityFeed()">✕</button>
+                </div>
+                <div id="activityList" class="activity-list">
+                    <div class="activity-empty">No recent activity</div>
+                </div>
+            </div>
+            <button class="activity-toggle" onclick="toggleActivityFeed()">
+                📢 Activity Feed
+            </button>
+
             <div id="moviesContainer">
                 <div class="loading">Loading movies...</div>
             </div>
@@ -137,6 +151,8 @@
         </div>
     </div>
 
+    <!-- SignalR Client Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

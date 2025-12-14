@@ -1,17 +1,117 @@
 // ==================== Configuration ====================
 const API_URL = 'http://localhost:5005/api'; // Change port to match your backend
+const HUB_URL = 'http://localhost:5005/movieHub'; // SignalR hub URL
 
 // ==================== State ====================
 let token = localStorage.getItem('token');
 let userRole = localStorage.getItem('userRole');
 let username = localStorage.getItem('username');
 let allMovies = [];
+let connection = null;
+let activityItems = [];
 
 // ==================== Initialize ====================
 if (token) {
     showMainApp();
 } else {
     showAuthPage();
+}
+
+// ==================== SignalR Connection ====================
+async function startSignalRConnection() {
+    connection = new signalR.HubConnectionBuilder()
+        .withUrl(HUB_URL)
+        .withAutomaticReconnect()
+        .build();
+
+    // Listen for movie activity
+    connection.on("ReceiveMovieActivity", (data) => {
+        console.log("Received activity:", data);
+        addActivityItem(data);
+        
+        // Also refresh movie list to show new movie
+        if (data.action === "added") {
+            loadMovies();
+        }
+    });
+
+    // Handle reconnection
+    connection.onreconnecting(() => {
+        console.log("SignalR reconnecting...");
+    });
+
+    connection.onreconnected(() => {
+        console.log("SignalR reconnected!");
+    });
+
+    connection.onclose(() => {
+        console.log("SignalR connection closed");
+    });
+
+    try {
+        await connection.start();
+        console.log("SignalR Connected!");
+    } catch (err) {
+        console.error("SignalR Connection Error:", err);
+        setTimeout(startSignalRConnection, 5000); // Retry after 5 seconds
+    }
+}
+
+// ==================== Activity Feed ====================
+function addActivityItem(data) {
+    const timestamp = new Date(data.timestamp || Date.now());
+    const timeAgo = getTimeAgo(timestamp);
+    
+    activityItems.unshift({
+        message: data.message,
+        time: timeAgo,
+        timestamp: timestamp,
+        isNew: true
+    });
+
+    // Keep only last 20 items
+    if (activityItems.length > 20) {
+        activityItems = activityItems.slice(0, 20);
+    }
+
+    renderActivityFeed();
+}
+
+function renderActivityFeed() {
+    const activityList = document.getElementById('activityList');
+    
+    if (activityItems.length === 0) {
+        activityList.innerHTML = '<div class="activity-empty">No recent activity</div>';
+        return;
+    }
+
+    activityList.innerHTML = activityItems.map((item, index) => `
+        <div class="activity-item ${item.isNew && index === 0 ? 'new' : ''}">
+            <div class="activity-message">${escapeHtml(item.message)}</div>
+            <div class="activity-time">${item.time}</div>
+        </div>
+    `).join('');
+
+    // Remove 'new' class after animation
+    setTimeout(() => {
+        if (activityItems[0]) {
+            activityItems[0].isNew = false;
+        }
+    }, 3000);
+}
+
+function toggleActivityFeed() {
+    const feed = document.getElementById('activityFeed');
+    feed.classList.toggle('hidden');
+}
+
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    if (seconds < 60) return 'just now';
+    if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+    return `${Math.floor(seconds / 86400)} days ago`;
 }
 
 // ==================== Auth Tab Switching ====================
@@ -102,6 +202,11 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
 });
 
 function logout() {
+    // Stop SignalR connection
+    if (connection) {
+        connection.stop();
+    }
+
     // Call logout endpoint
     fetch(`${API_URL}/auth/logout`, {
         method: 'POST',
@@ -112,6 +217,7 @@ function logout() {
     token = null;
     userRole = null;
     username = null;
+    activityItems = [];
     showAuthPage();
 }
 
@@ -131,6 +237,7 @@ function showMainApp() {
     }
 
     loadMovies();
+    startSignalRConnection(); // Start SignalR connection
 }
 
 // ==================== Movie Operations ====================
