@@ -299,6 +299,101 @@ input:focus, textarea:focus, select:focus {
     color: #aaa;
 }
 
+.top-movies-widget {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-header h2 {
+    color: #fff;
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.widget-badge {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.top-movies-list {
+    display: grid;
+    gap: 12px;
+}
+
+.top-movie-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-movie-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(5px);
+    border-color: rgba(238, 90, 111, 0.3);
+}
+
+.top-movie-rank {
+    font-size: 1.8em;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 40px;
+    text-align: center;
+}
+
+.top-movie-info {
+    flex: 1;
+}
+
+.top-movie-title {
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.top-movie-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.top-movie-rating {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 .activity-feed {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);

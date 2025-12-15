@@ -47,6 +47,9 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<MovieDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add gRPC services
+builder.Services.AddGrpc();
+
 // Configure JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured");
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer not configured");
@@ -87,7 +90,8 @@ builder.Services.AddCors(options =>
               )
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials(); // Required for SignalR
+              .AllowCredentials() // Required for SignalR
+              .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding"); // For gRPC-Web
     });
 });
 
@@ -102,6 +106,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+
+// Enable gRPC-Web (allows browsers to call gRPC)
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -111,5 +119,9 @@ app.MapMovieEndpoints();
 
 // Map SignalR hub
 app.MapHub<MovieApp.Api.Hubs.MovieHub>("/movieHub");
+
+// Map gRPC service
+app.MapGrpcService<MovieApp.Api.GrpcServices.MovieStatsService>()
+    .EnableGrpcWeb();
 
 app.Run();

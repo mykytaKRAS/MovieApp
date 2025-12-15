@@ -1,5 +1,5 @@
 // ==================== Configuration ====================
-const API_URL = 'http://localhost:5005/api'; // Change port to match your backend
+const API_URL = 'http://localhost:5005/api'; // Backend API URL
 const HUB_URL = 'http://localhost:5005/movieHub'; // SignalR hub URL
 
 // ==================== State ====================
@@ -20,8 +20,12 @@ if (token) {
 // ==================== SignalR Connection ====================
 async function startSignalRConnection() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl(HUB_URL)
+        .withUrl(HUB_URL, {
+            skipNegotiation: false,
+            transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents | signalR.HttpTransportType.LongPolling
+        })
         .withAutomaticReconnect()
+        .configureLogging(signalR.LogLevel.Information)
         .build();
 
     // Listen for movie activity
@@ -238,6 +242,7 @@ function showMainApp() {
 
     loadMovies();
     startSignalRConnection(); // Start SignalR connection
+    loadTopMoviesViaRest(); // Load top 10 movies
 }
 
 // ==================== Movie Operations ====================

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option csharp_namespace = "MovieApp.Api.GrpcServices";
+
+package movies;
+
+// Service for movie statistics
+service MovieStats {
+  // Get top 10 movies by rating (simple request-response)
+  rpc GetTopMovies (TopMoviesRequest) returns (TopMoviesResponse);
+}
+
+// Request message for top movies
+message TopMoviesRequest {
+  int32 limit = 1;        // Number of top movies to return (default 10)
+  string genre = 2;       // Optional: filter by genre
+}
+
+// Response with list of top movies
+message TopMoviesResponse {
+  repeated MovieInfo movies = 1;
+}
+
+// Movie information
+message MovieInfo {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  int32 release_year = 4;
+  string genre = 5;
+  double rating = 6;
+}
