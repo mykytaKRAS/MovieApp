@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "YearService";
+
+service YearCalculator {
+  rpc CalculateYearsAgo (YearRequest) returns (YearResponse);
+}
+
+message YearRequest {
+  int32 year = 1;
+}
+
+message YearResponse {
+  int32 years_ago = 1;
+  string message = 2;
+}
