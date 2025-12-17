@@ -1,7 +1,7 @@
 using Grpc.Net.Client;
 using Microsoft.EntityFrameworkCore;
-using MovieApp.Api.GrpcClients;
 using MovieApp.Api.Data;
+using static MovieApp.Api.GrpcClients.MovieCalculator;
 
 namespace MovieApp.Api.Endpoints
 {
@@ -27,10 +27,10 @@ namespace MovieApp.Api.Endpoints
 
                     // Call gRPC Calculator Service
                     using var channel = GrpcChannel.ForAddress("http://localhost:5010");
-                    var client = new MovieCalculator.MovieCalculatorClient(channel);
+                    var client = new MovieCalculatorClient(channel);
 
                     // Calculate average via gRPC
-                    var ratingList = new RatingList();
+                    var ratingList = new MovieApp.Api.GrpcClients.RatingList();
                     ratingList.Ratings.AddRange(ratings);
 
                     var avgResponse = await client.CalculateAverageRatingAsync(ratingList);
@@ -76,9 +76,9 @@ namespace MovieApp.Api.Endpoints
 
                     // Call gRPC Calculator Service
                     using var channel = GrpcChannel.ForAddress("http://localhost:5010");
-                    var client = new MovieCalculator.MovieCalculatorClient(channel);
+                    var client = new MovieCalculatorClient(channel);
 
-                    var request = new SingleRating { Rating = movie.Rating };
+                    var request = new MovieApp.Api.GrpcClients.SingleRating { Rating = movie.Rating };
                     var response = await client.GetRatingTierAsync(request);
 
                     var result = new

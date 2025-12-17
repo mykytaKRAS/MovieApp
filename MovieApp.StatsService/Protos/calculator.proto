@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "MovieApp.Calculator";
+option csharp_namespace = "MovieApp.Api.GrpcClients";
 
 package calculator;
 
