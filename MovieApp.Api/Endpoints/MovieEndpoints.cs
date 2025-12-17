@@ -11,7 +11,6 @@ namespace MovieApp.Api.Endpoints
             var moviesGroup = app.MapGroup("/api/movies")
                 .WithTags("Movies");
 
-            // Get all movies (Public)
             moviesGroup.MapGet("/", async (IMovieService movieService) =>
             {
                 var movies = await movieService.GetAllMoviesAsync();
@@ -20,7 +19,6 @@ namespace MovieApp.Api.Endpoints
             .WithName("GetAllMovies")
             .Produces<IEnumerable<MovieDto>>(StatusCodes.Status200OK);
 
-            // Get movie by ID (Public)
             moviesGroup.MapGet("/{id:int}", async (
                 int id,
                 IMovieService movieService) =>
@@ -37,7 +35,6 @@ namespace MovieApp.Api.Endpoints
             .Produces<MovieDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
 
-            // Search movies (Public)
             moviesGroup.MapGet("/search", async (
                 [FromQuery] string? title,
                 [FromQuery] string? genre,
@@ -50,7 +47,6 @@ namespace MovieApp.Api.Endpoints
             .WithName("SearchMovies")
             .Produces<IEnumerable<MovieDto>>(StatusCodes.Status200OK);
 
-            // Create movie (Admin only)
             moviesGroup.MapPost("/", async (
                 [FromBody] CreateMovieDto createMovieDto,
                 IMovieService movieService,
@@ -67,7 +63,6 @@ namespace MovieApp.Api.Endpoints
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden);
 
-            // Update movie (Admin only)
             moviesGroup.MapPut("/{id:int}", async (
                 int id,
                 [FromBody] UpdateMovieDto updateMovieDto,
@@ -89,7 +84,6 @@ namespace MovieApp.Api.Endpoints
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden);
 
-            // Delete movie (Admin only)
             moviesGroup.MapDelete("/{id:int}", async (
                 int id,
                 IMovieService movieService) =>

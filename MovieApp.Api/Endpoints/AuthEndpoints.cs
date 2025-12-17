@@ -11,7 +11,6 @@ namespace MovieApp.Api.Endpoints
             var authGroup = app.MapGroup("/api/auth")
                 .WithTags("Authentication");
 
-            // Register a new user
             authGroup.MapPost("/register", async (
                 [FromBody] RegisterDto registerDto,
                 IAuthService authService) =>
@@ -28,7 +27,6 @@ namespace MovieApp.Api.Endpoints
             .Produces<AuthResponseDto>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest);
 
-            // Login
             authGroup.MapPost("/login", async (
                 [FromBody] LoginDto loginDto,
                 IAuthService authService) =>
@@ -45,7 +43,6 @@ namespace MovieApp.Api.Endpoints
             .Produces<AuthResponseDto>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized);
 
-            // Logout
             authGroup.MapPost("/logout", async (
                 HttpContext context,
                 IAuthService authService) =>
@@ -70,7 +67,6 @@ namespace MovieApp.Api.Endpoints
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized);
 
-            // Validate token
             authGroup.MapGet("/validate", async (
                 HttpContext context,
                 IAuthService authService) =>

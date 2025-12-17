@@ -149,17 +149,24 @@ function hideSuggestions() {
 function selectMovie(movieId) {
     hideSuggestions();
     
-    // Find the movie in the list and scroll to it
-    const movieCard = document.querySelector(`[data-movie-id="${movieId}"]`);
-    if (movieCard) {
-        movieCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        movieCard.style.animation = 'highlight 1s ease';
-    } else {
-        // If movie not visible, filter to show only this movie
-        const movie = allMovies.find(m => m.id === movieId);
-        if (movie) {
-            displayMovies([movie]);
-        }
+    // Find the movie in allMovies and show only that movie
+    const movie = allMovies.find(m => m.id === movieId);
+    if (movie) {
+        displayMovies([movie]);
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Add button to show all movies again
+        const container = document.getElementById('moviesContainer');
+        const showAllBtn = document.createElement('button');
+        showAllBtn.textContent = '← Show All Movies';
+        showAllBtn.className = 'show-all-button';
+        showAllBtn.onclick = () => {
+            displayMovies(allMovies);
+            showAllBtn.remove();
+        };
+        container.insertBefore(showAllBtn, container.firstChild);
     }
 
     // Clear search input

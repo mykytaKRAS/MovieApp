@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MovieApp.Api.DTOs
 {
-    // Request DTO for creating a movie
     public class CreateMovieDto
     {
         [Required(ErrorMessage = "Title is required")]
@@ -23,7 +22,6 @@ namespace MovieApp.Api.DTOs
         public double Rating { get; set; }
     }
 
-    // Request DTO for updating a movie
     public class UpdateMovieDto
     {
         [StringLength(200, ErrorMessage = "Title cannot exceed 200 characters")]
@@ -42,7 +40,6 @@ namespace MovieApp.Api.DTOs
         public double? Rating { get; set; }
     }
 
-    // Response DTO for movie
     public class MovieDto
     {
         public int Id { get; set; }

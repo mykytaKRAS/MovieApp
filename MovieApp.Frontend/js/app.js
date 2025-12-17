@@ -371,24 +371,6 @@ function closeModal() {
     hideMessage('modalError');
 }
 
-// ==================== Search / Filter ====================
-document.getElementById('searchBox').addEventListener('input', filterMovies);
-document.getElementById('genreFilter').addEventListener('change', filterMovies);
-
-function filterMovies() {
-    const search = document.getElementById('searchBox').value.toLowerCase();
-    const genre = document.getElementById('genreFilter').value;
-
-    const filtered = allMovies.filter(movie => {
-        const matchesSearch = movie.title.toLowerCase().includes(search) || 
-                             (movie.description && movie.description.toLowerCase().includes(search));
-        const matchesGenre = !genre || movie.genre === genre;
-        return matchesSearch && matchesGenre;
-    });
-
-    displayMovies(filtered);
-}
-
 // ==================== Helper Functions ====================
 function showMessage(elementId, message) {
     const el = document.getElementById(elementId);

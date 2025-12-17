@@ -1,6 +1,4 @@
 // gRPC-Web Client for Top Movies Widget
-// Simple request-response pattern (no streaming)
-
 const GRPC_URL = 'http://localhost:5005';
 
 // Load top 10 movies via gRPC (simple one-time request)

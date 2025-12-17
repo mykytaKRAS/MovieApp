@@ -31,16 +31,13 @@ namespace MovieApp.Api.Services
 
         public async Task<AuthResponseDto?> RegisterAsync(RegisterDto registerDto)
         {
-            // Check if user already exists
             if (await _context.Users.AnyAsync(u => u.Username == registerDto.Username))
             {
                 return null;
             }
 
-            // Hash password
             var passwordHash = HashPassword(registerDto.Password);
 
-            // Create user
             var user = new User
             {
                 Username = registerDto.Username,
@@ -51,26 +48,22 @@ namespace MovieApp.Api.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Generate token
             return await GenerateTokenAsync(user);
         }
 
         public async Task<AuthResponseDto?> LoginAsync(LoginDto loginDto)
         {
-            // Find user
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username);
             if (user == null)
             {
                 return null;
             }
 
-            // Verify password
             if (!VerifyPassword(loginDto.Password, user.PasswordHash))
             {
                 return null;
             }
 
-            // Generate token
             return await GenerateTokenAsync(user);
         }
 

@@ -273,28 +273,25 @@ input:focus, textarea:focus, select:focus {
     gap: 15px;
     margin-bottom: 30px;
     flex-wrap: wrap;
-}
-
-.search-box {
-    flex: 1;
-    min-width: 200px;
+    align-items: center;
 }
 
 .graphql-search-container {
     position: relative;
     flex: 1;
-    min-width: 250px;
+    min-width: 300px;
+    max-width: 600px;
 }
 
 .graphql-search-box {
     width: 100%;
-    padding: 12px;
-    padding-left: 15px;
+    padding: 14px 20px;
+    padding-left: 20px;
     background: rgba(76, 209, 55, 0.1);
-    border: 1px solid rgba(76, 209, 55, 0.3);
-    border-radius: 8px;
+    border: 2px solid rgba(76, 209, 55, 0.3);
+    border-radius: 12px;
     color: #e4e4e4;
-    font-size: 1em;
+    font-size: 1.1em;
     transition: all 0.3s ease;
 }
 
@@ -302,7 +299,7 @@ input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: #4cd137;
     background: rgba(76, 209, 55, 0.15);
-    box-shadow: 0 0 0 3px rgba(76, 209, 55, 0.1);
+    box-shadow: 0 0 0 4px rgba(76, 209, 55, 0.1);
 }
 
 .search-suggestions {
@@ -381,6 +378,16 @@ input:focus, textarea:focus, select:focus {
     color: #4cd137;
 }
 
+.show-all-button {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.show-all-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
 .hidden {
     display: none;
 }
@@ -432,17 +439,6 @@ input:focus, textarea:focus, select:focus {
     color: #fff;
     font-size: 1.5em;
     margin: 0;
-}
-
-.widget-badge {
-    background: linear-gradient(45deg, #4CAF50, #45a049);
-    padding: 5px 12px;
-    border-radius: 12px;
-    font-size: 0.75em;
-    font-weight: 600;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .top-movies-list {
