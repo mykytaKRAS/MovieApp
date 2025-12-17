@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieApp.Api.Data;
-using MovieApp.Api.Services;
 using MovieApp.Api.Endpoints;
+using MovieApp.Api.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +49,13 @@ builder.Services.AddDbContext<MovieDbContext>(options =>
 
 // Add gRPC services
 builder.Services.AddGrpc();
+
+// Add GraphQL
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<MovieApp.Api.GraphQL.Queries.MovieQuery>()
+    .AddFiltering()
+    .AddSorting();
 
 // Configure JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured");
@@ -123,5 +130,8 @@ app.MapHub<MovieApp.Api.Hubs.MovieHub>("/movieHub");
 // Map gRPC service
 app.MapGrpcService<MovieApp.Api.GrpcServices.MovieStatsService>()
     .EnableGrpcWeb();
+
+// Map GraphQL endpoint
+app.MapGraphQL("/graphql");
 
 app.Run();

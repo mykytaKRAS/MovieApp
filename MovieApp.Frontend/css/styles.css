@@ -161,6 +161,16 @@ input:focus, textarea:focus, select:focus {
     border-color: rgba(238, 90, 111, 0.5);
 }
 
+@keyframes highlight {
+    0%, 100% {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        background: rgba(76, 209, 55, 0.2);
+        border-color: #4cd137;
+    }
+}
+
 .movie-title {
     font-size: 1.5em;
     margin-bottom: 10px;
@@ -268,6 +278,107 @@ input:focus, textarea:focus, select:focus {
 .search-box {
     flex: 1;
     min-width: 200px;
+}
+
+.graphql-search-container {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+.graphql-search-box {
+    width: 100%;
+    padding: 12px;
+    padding-left: 15px;
+    background: rgba(76, 209, 55, 0.1);
+    border: 1px solid rgba(76, 209, 55, 0.3);
+    border-radius: 8px;
+    color: #e4e4e4;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.graphql-search-box:focus {
+    outline: none;
+    border-color: #4cd137;
+    background: rgba(76, 209, 55, 0.15);
+    box-shadow: 0 0 0 3px rgba(76, 209, 55, 0.1);
+}
+
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 5px;
+    background: rgba(22, 33, 62, 0.98);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(76, 209, 55, 0.3);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.search-suggestions.hidden {
+    display: none;
+}
+
+.suggestion-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: rgba(76, 209, 55, 0.1);
+}
+
+.suggestion-title {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.suggestion-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.suggestion-rating {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.suggestion-badge {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.7em;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    align-self: center;
+}
+
+.suggestion-empty {
+    padding: 20px;
+    text-align: center;
+    color: #aaa;
+}
+
+.suggestion-loading {
+    padding: 20px;
+    text-align: center;
+    color: #4cd137;
 }
 
 .hidden {

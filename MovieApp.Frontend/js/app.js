@@ -243,6 +243,7 @@ function showMainApp() {
     loadMovies();
     startSignalRConnection(); // Start SignalR connection
     loadTopMoviesViaRest(); // Load top 10 movies
+    initGraphQLSearch(); // Initialize GraphQL search
 }
 
 // ==================== Movie Operations ====================
@@ -268,7 +269,7 @@ function displayMovies(movies) {
     }
 
     container.innerHTML = '<div class="movies-grid">' + movies.map(movie => `
-        <div class="movie-card">
+        <div class="movie-card" data-movie-id="${movie.id}">
             <div class="movie-title">${escapeHtml(movie.title)}</div>
             <div class="movie-meta">
                 <span class="movie-genre">${escapeHtml(movie.genre || 'N/A')}</span>

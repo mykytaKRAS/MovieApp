@@ -1,0 +1,23 @@
+type Query {
+  # Search movies by title (autocomplete/suggestions)
+  searchMovies(query: String!, limit: Int = 10): [Movie!]!
+  
+  # Get movie by ID
+  movie(id: Int!): Movie
+  
+  # Get all movies with optional filters
+  movies(genre: String, minRating: Float, year: Int): [Movie!]!
+}
+
+type Movie {
+  id: Int!
+  title: String!
+  description: String
+  releaseYear: Int!
+  genre: String
+  rating: Float!
+}
+
+schema {
+  query: Query
+}
