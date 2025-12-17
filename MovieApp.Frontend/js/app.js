@@ -242,7 +242,7 @@ function showMainApp() {
 
     loadMovies();
     startSignalRConnection(); // Start SignalR connection
-    loadTopMoviesViaRest(); // Load top 10 movies
+    loadCollectionStats(); // Load statistics via gRPC
     initGraphQLSearch(); // Initialize GraphQL search
 }
 
@@ -370,6 +370,9 @@ function closeModal() {
     document.getElementById('movieModal').classList.remove('active');
     hideMessage('modalError');
 }
+
+// ==================== Search / Filter ====================
+// Removed old search/filter - now using GraphQL search only
 
 // ==================== Helper Functions ====================
 function showMessage(elementId, message) {

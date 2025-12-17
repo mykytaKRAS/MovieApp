@@ -1,60 +1,71 @@
-// gRPC-Web Client for Top Movies Widget
-const GRPC_URL = 'http://localhost:5005';
+// Statistics Widget (calling gRPC Calculator Service via Main API)
 
-// Load top 10 movies via gRPC (simple one-time request)
-async function loadTopMoviesViaGrpc() {
+// Load collection statistics
+async function loadCollectionStats() {
     try {
-        // For simplicity, we'll use REST API as fallback
-        // In production, you would use generated gRPC-Web client code
-        await loadTopMoviesViaRest();
-    } catch (err) {
-        console.error('gRPC Error:', err);
-        await loadTopMoviesViaRest();
-    }
-}
+        const response = await fetch(`${API_URL}/stats/collection`);
+        if (!response.ok) throw new Error('Failed to fetch stats');
 
-// Load top movies via REST API
-async function loadTopMoviesViaRest() {
-    try {
-        const response = await fetch(`${API_URL}/movies`);
-        if (!response.ok) throw new Error('Failed to fetch movies');
-
-        const movies = await response.json();
-        const topMovies = movies
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 10);
-        
-        displayTopMovies(topMovies);
+        const stats = await response.json();
+        displayCollectionStats(stats);
+        console.log('✅ Statistics calculated via gRPC Calculator Service');
     } catch (err) {
-        console.error('REST API Error:', err);
+        console.error('Error loading stats:', err);
         document.getElementById('topMoviesList').innerHTML = 
-            '<div class="error-message">Failed to load top movies</div>';
+            '<div class="error-message">Failed to load statistics</div>';
     }
 }
 
-// Display top movies in the widget
-function displayTopMovies(movies) {
+// Display collection statistics
+function displayCollectionStats(stats) {
     const container = document.getElementById('topMoviesList');
 
-    if (!movies || movies.length === 0) {
-        container.innerHTML = '<div class="loading">No movies found</div>';
+    if (!stats.totalMovies) {
+        container.innerHTML = '<div class="loading">No statistics available</div>';
         return;
     }
 
-    container.innerHTML = movies.map((movie, index) => `
-        <div class="top-movie-item">
-            <div class="top-movie-rank">#${index + 1}</div>
-            <div class="top-movie-info">
-                <div class="top-movie-title">${escapeHtml(movie.title)}</div>
-                <div class="top-movie-meta">
-                    <span>${movie.releaseYear || movie.release_year}</span>
-                    <span>•</span>
-                    <span>${escapeHtml(movie.genre || 'N/A')}</span>
+    container.innerHTML = `
+        <div class="stats-card">
+            <div class="stats-row">
+                <span class="stats-label">Total Movies:</span>
+                <span class="stats-value">${stats.totalMovies}</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Average Rating:</span>
+                <span class="stats-value">⭐ ${stats.averageRating.toFixed(2)}/10</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Highest Rating:</span>
+                <span class="stats-value">${stats.highestRating.toFixed(1)}/10</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Lowest Rating:</span>
+                <span class="stats-value">${stats.lowestRating.toFixed(1)}/10</span>
+            </div>
+            <div class="stats-divider"></div>
+            <div class="stats-distribution">
+                <h4>Rating Distribution:</h4>
+                <div class="distribution-item">
+                    <span>🌟 Excellent (8.0-10.0):</span>
+                    <span>${stats.distribution.excellent}</span>
+                </div>
+                <div class="distribution-item">
+                    <span>⭐ Good (6.0-7.9):</span>
+                    <span>${stats.distribution.good}</span>
+                </div>
+                <div class="distribution-item">
+                    <span>🙂 Average (4.0-5.9):</span>
+                    <span>${stats.distribution.average}</span>
+                </div>
+                <div class="distribution-item">
+                    <span>😐 Poor (0.0-3.9):</span>
+                    <span>${stats.distribution.poor}</span>
                 </div>
             </div>
-            <div class="top-movie-rating">
-                ⭐ ${movie.rating.toFixed(1)}
+            <div class="stats-footer">
+                <small>📡 ${stats.message}</small>
             </div>
         </div>
-    `).join('');
+    `;
 }

@@ -441,6 +441,72 @@ input:focus, textarea:focus, select:focus {
     margin: 0;
 }
 
+.widget-badge-grpc {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stats-card {
+    padding: 10px;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stats-label {
+    color: #aaa;
+}
+
+.stats-value {
+    color: #fff;
+    font-weight: 600;
+}
+
+.stats-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 0;
+}
+
+.stats-distribution {
+    margin-top: 15px;
+}
+
+.stats-distribution h4 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.distribution-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: #e4e4e4;
+}
+
+.stats-footer {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.stats-footer small {
+    color: #4cd137;
+    font-size: 0.85em;
+}
+
 .top-movies-list {
     display: grid;
     gap: 12px;

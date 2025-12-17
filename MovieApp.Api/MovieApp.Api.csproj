@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\movies.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\stats.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

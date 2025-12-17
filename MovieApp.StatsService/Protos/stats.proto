@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option csharp_namespace = "MovieApp.Calculator";
+
+package calculator;
+
+// Simple calculator service for movie statistics
+service MovieCalculator {
+  // Calculate average rating from a list
+  rpc CalculateAverageRating (RatingList) returns (AverageResponse);
+  
+  // Calculate rating distribution (how many movies in each rating range)
+  rpc CalculateRatingDistribution (RatingList) returns (DistributionResponse);
+  
+  // Recommend rating tier (Excellent/Good/Average/Poor)
+  rpc GetRatingTier (SingleRating) returns (TierResponse);
+}
+
+// List of ratings
+message RatingList {
+  repeated double ratings = 1;
+}
+
+// Single rating
+message SingleRating {
+  double rating = 1;
+}
+
+// Average response
+message AverageResponse {
+  double average = 1;
+  int32 count = 2;
+  double highest = 3;
+  double lowest = 4;
+}
+
+// Distribution response
+message DistributionResponse {
+  int32 excellent = 1;      // 8.0 - 10.0
+  int32 good = 2;           // 6.0 - 7.9
+  int32 average = 3;        // 4.0 - 5.9
+  int32 poor = 4;           // 0.0 - 3.9
+}
+
+// Rating tier response
+message TierResponse {
+  string tier = 1;          // "Excellent", "Good", "Average", "Poor"
+  string emoji = 2;         // 🌟, ⭐, 🙂, 😐
+  string description = 3;
+}
